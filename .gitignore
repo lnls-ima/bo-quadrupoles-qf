@@ -3,6 +3,7 @@
 **/tests
 *_ignore.*
 temp/
+*.pxp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
