@@ -1,6 +1,6 @@
 BO-QUADRUPOLES-QF
 
-Repository with Booster quadrupoles QF data
+Repository with Sirius booster quadrupoles QF data
 
 - documentation
 - magnet model
