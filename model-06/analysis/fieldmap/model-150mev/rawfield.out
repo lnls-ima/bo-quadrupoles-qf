@@ -1,0 +1,16 @@
+(437886,)
+(72981, 6)
+--- fieldmap ---
+timestamp:                          2016-12-06_09-23-51
+filename:                           2016-12-06_BQF_Model06_Sim_X=-20_20mm_Z=-450_450mm_I=5.28A.txt
+magnet_label:                       QF
+magnet_length:                      212.0 mm
+main_coil_current:                  5.28 A
+magnetic_gap:                       40.0 mm
+control_gap:                        None mm
+ry_grid:                            1 point in [0.0,0.0] mm (step of 0.000000 mm)
+rx_grid:                            81 points in [-20.0,20.0] mm (step of 0.500000 mm)
+rz_grid:                            901 points in [-450.0,450.0] mm (step of 1.000000 mm)
+by@(all)(axis):                     (min:-0.01793 max:+0.01793) (min:-0.00000 max:+0.00000) Tesla
+bx@(all)(axis):                     (min:-0.00000 max:+0.00000) (min:-0.00000 max:+0.00000) Tesla
+bz@(all)(axis):                     (min:-0.00000 max:+0.00000) (min:-0.00000 max:+0.00000) Tesla
