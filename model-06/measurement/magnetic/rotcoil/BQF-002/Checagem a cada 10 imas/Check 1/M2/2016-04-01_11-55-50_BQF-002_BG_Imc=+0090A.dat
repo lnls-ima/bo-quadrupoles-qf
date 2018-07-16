@@ -4,7 +4,7 @@
 file                           	D:\ARQ\Work_at_LNLS\Repositorio SVN\Magnets\Magnetic Measurements\Booster Magnets\Quadrupoles\BQF\BQF-002\Checagem a cada 10 imas\Check 1\Medida 2\BQ002_Q_BOB_+0090A_160401_115550.dat
 date                           	01/04/2016
 hour                           	11:55:50
-temperature(ºC)             	21.2
+temperature(C)             	21.2
 integrator_gain                	100
 nr_integration_points          	144
 velocity(rps)                	1.0

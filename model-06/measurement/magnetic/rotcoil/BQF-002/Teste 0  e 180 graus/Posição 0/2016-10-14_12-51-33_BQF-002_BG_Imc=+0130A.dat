@@ -1,10 +1,10 @@
 ########## EXCITATION CURVE - ROTATING COIL ##########
 
 ### Configuration Data ###
-file                           	C:\Users\labimas\Desktop\Testes\Novo alinhamento QB002\Posição 0\BQF-002_Medida 2_Q_BOB_+0130A_161014_125133.dat
+file                           	C:\Users\labimas\Desktop\Testes\Novo alinhamento QB002\Posio 0\BQF-002_Medida 2_Q_BOB_+0130A_161014_125133.dat
 date                           	14/10/2016
 hour                           	12:51:33
-temperature(ºC)             	23.0
+temperature(C)             	23.0
 integrator_gain                	50
 nr_integration_points          	144
 velocity(rps)                	1.0
@@ -31,7 +31,7 @@ bucked_coil_internal_radius(m) 	0
 bucked_coil_external_radius(m) 	0
 
 ### Comments ###
-comments                       	Medida 3; posição 0º.
+comments                       	Medida 3; posio 0.
 
 
 

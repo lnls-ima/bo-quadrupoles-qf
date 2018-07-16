@@ -4,7 +4,7 @@
 file                           	C:\Users\labimas\Desktop\Testes\Novo alinhamento QB002\BQF-002_Medida 1_Q_BOB_+0130A_161014_121937.dat
 date                           	14/10/2016
 hour                           	12:19:37
-temperature(ºC)             	23.0
+temperature(C)             	23.0
 integrator_gain                	50
 nr_integration_points          	144
 velocity(rps)                	1.0

@@ -1,10 +1,10 @@
 ########## EXCITATION CURVE - ROTATING COIL ##########
 
 ### Configuration Data ###
-file                           	C:\Users\labimas\Desktop\Testes\Correção Rotação Quadupolos do Booster\BQF002_pulso_325323\BQF-002_Q_BOB_+0130A_161205_095605.dat
+file                           	C:\Users\labimas\Desktop\Testes\Correo Rotao Quadupolos do Booster\BQF002_pulso_325323\BQF-002_Q_BOB_+0130A_161205_095605.dat
 date                           	05/12/2016
 hour                           	09:56:05
-temperature(ºC)             	23.1
+temperature(C)             	23.1
 integrator_gain                	50
 nr_integration_points          	144
 velocity(rps)                	1.0
@@ -31,7 +31,7 @@ bucked_coil_internal_radius(m) 	0
 bucked_coil_external_radius(m) 	0
 
 ### Comments ###
-comments                       	BQF002 com pulso de início do sextupolo BS. (Pulso de incio: 325321).
+comments                       	BQF002 com pulso de incio do sextupolo BS. (Pulso de incio: 325321).
 
 
 
