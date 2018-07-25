@@ -1,7 +1,4 @@
 function idcs = sort_simulated_annealing(ring, data, fam_data, orbit, idcs)
-    if ~exist('idcs', 'var')
-        idcs = 1:length(data.exc_err);
-    end
     
     twi0 = calctwiss(ring);
     
@@ -22,15 +19,9 @@ function idcs = sort_simulated_annealing(ring, data, fam_data, orbit, idcs)
     end
 end
 
-
 function idcs = change_order(idcs)
-    perm = randperm(50,4);
-    idcs(perm) = idcs(fliplr(perm));
-    
-
-%     perm1 = randperm(50,4);
-%     perm2 = randperm(50,4);
-%     idcs(perm1) = idcs(perm2);
+    prm = randperm(50, 2);
+    idcs(prm) = idcs(fliplr(prm));
 end
 
 function res = calc_residue(ring, twi0)
