@@ -1,4 +1,4 @@
-function idcs = sort_simulated_annealing(data, idcs)
+function idcs = sort_simulated_annealing_constraint(data, idcs)
     setappdata(0, 'stop_now', 0);
     ring0 = sirius_bo_lattice();
     twi0 = calctwiss(ring0);
@@ -41,8 +41,15 @@ function ring = do_corrections(ring, nus, orbit)
 end
 
 function idcs = change_order(idcs)
-    prm = randperm(50, 2);
+    id = idcs(2);
+    prm = randperm(25, 2)*2 - randi([0,1]); %permute odd with odd and even with even
     idcs(prm) = idcs(fliplr(prm));
+    idcs = put_sec2_in_place(idcs, id);
+end
+
+function idcs = put_sec2_in_place(idcs, id)
+    if ~exist('id', 'var'), id = 2; end
+    idcs = circshift(idcs, [-find(idcs==id)+2, 0]);
 end
 
 function res = calc_residue(ring, twi0)

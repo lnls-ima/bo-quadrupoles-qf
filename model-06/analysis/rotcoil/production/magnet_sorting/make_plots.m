@@ -1,4 +1,5 @@
-function twi = make_plots(indcs, ring, data)
+function twi = make_plots(indcs, data)
+    ring = create_rings(indcs, data);
 
     fs = fieldnames(ring);
     for i=1:length(fs)
@@ -48,9 +49,9 @@ function twi = make_plots(indcs, ring, data)
     xlabel(ax, 'position [m]', 'FontSize', 16);
     ylabel(ax, 'Exc. Error [%]', 'FontSize', 16);
     fi = fieldnames(indcs);
-    mk = {'+', '*', '.'};
+    mk = '+o*xvd^s><';
     for i=1:length(fi)
-        plot(ax, 100*data.exc_err(indcs.(fi{i})), mk{i}, 'MarkerSize', 16, ...
+        plot(ax, 100*data.exc_err(indcs.(fi{i})), mk(i), 'MarkerSize', 16, ...
              'MarkerFaceColor','auto', 'DisplayName', fi{i});
     end
     legend(ax, 'Location', 'best');

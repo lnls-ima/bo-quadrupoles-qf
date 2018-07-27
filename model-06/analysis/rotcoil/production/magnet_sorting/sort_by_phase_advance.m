@@ -1,24 +1,21 @@
-function sorted_idcs = sort_by_phase_advance(data, param)
-
-    if ~exist('param', 'var')
-        param = 'x0';
-    end
+function sorted_indcs = sort_by_phase_advance(data, param, indcs)
+    indcs = sort_simple(data, param, indcs);
 
     fig_mer = data.(param);
     fig_mer = fig_mer - median(fig_mer);
-    [~, idcs] = sort(fig_mer);
+    [~, indcs] = sort(fig_mer);
 
     off = 13;  % at each 13 dipoles, the phase advance is 10*pi and
                % at each 26 dipoles, the phase advance is 20*pi
 
-    idcs1 = idcs(1:2:end);
-    idcs2 = flipud(idcs(2:2:end));
+    indcs1 = indcs(1:2:end);
+    indcs2 = flipud(indcs(2:2:end));
 
-    idcs11 = idcs1(1:off-2);
-    idcs12 = idcs1(off-1);
-    idcs13 = idcs1(off:end);
-    idcs21 = idcs2(1:off);
-    idcs22 = idcs2(off+1);
-    idcs23 = idcs2(off+2:end);
+    indcs11 = indcs1(1:off-2);
+    indcs12 = indcs1(off-1);
+    indcs13 = indcs1(off:end);
+    indcs21 = indcs2(1:off);
+    indcs22 = indcs2(off+1);
+    indcs23 = indcs2(off+2:end);
 
-    sorted_idcs = [idcs13; idcs21; idcs12; idcs22; idcs23; idcs11];
+    sorted_indcs = [indcs13; indcs21; indcs12; indcs22; indcs23; indcs11];
