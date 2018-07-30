@@ -6,7 +6,13 @@ function data = load_data(energy)
     end
     
     data = import_readme(filename);
-    data.james_ordering = { ...
+    
+    % Do not take into account a very strange result from M1 at low energy
+    if strcmp(energy, 'LE')
+        data.M1.exc_err(27) = data.M2.exc_err(27);
+    end
+    
+    james_ordering = { ...
         'BQF-015'; 'BQF-007'; 'BQF-045'; 'BQF-051'; 'BQF-043'; ...
         'BQF-048'; 'BQF-058'; 'BQF-049'; 'BQF-016'; 'BQF-034'; ...
         'BQF-023'; 'BQF-033'; 'BQF-038'; 'BQF-047'; 'BQF-037'; ...
@@ -17,14 +23,21 @@ function data = load_data(energy)
         'BQF-031'; 'BQF-055'; 'BQF-012'; 'BQF-046'; 'BQF-022'; ...
         'BQF-035'; 'BQF-032'; 'BQF-036'; 'BQF-017'; 'BQF-018'; ...
         'BQF-013'; 'BQF-021'; 'BQF-024'; 'BQF-026'; 'BQF-014'};
-    [~, ~, ib] = intersect(data.james_ordering, data.names, 'stable');
-    D = setdiff(data.names, data.james_ordering, 'stable');
+    [~, ~, ib] = intersect(james_ordering, data.M1.names, 'stable');
+    james_sorting = ib;
+    
+    D = setdiff(data.M1.names, james_ordering, 'stable');
     fprintf('Discarding ');
     for i=1:length(D)
         fprintf('%s ', D{i});
     end
     fprintf('\n\n');
-    data.james_sorting = ib;
+        
+    fn = fieldnames(data);
+    for i=1:length(fn)
+        data.(fn{i}).james_ordering = james_ordering;
+        data.(fn{i}).james_sorting = james_sorting;
+    end
 end
 
 function data = import_readme(filename)
@@ -66,8 +79,8 @@ function data = import_readme(filename)
     %% Adapted by Fernando
     names = dataArray{:, 1};
 
-    data.names = names;
     for i=0:2
+        med.names = names;
         med.x0 = 1e-6*dataArray{:, 2 + i*3};
         med.y0 = 1e-6*dataArray{:, 3 + i*3};
         med.GLpI = dataArray{:, 4 + i*3};
