@@ -1,10 +1,6 @@
 function sorted_indcs = sort_by_phase_advance(data, param, indcs)
     indcs = sort_simple(data, param, indcs);
 
-    fig_mer = data.(param);
-    fig_mer = fig_mer - median(fig_mer);
-    [~, indcs] = sort(fig_mer);
-
     off = 13;  % at each 13 dipoles, the phase advance is 10*pi and
                % at each 26 dipoles, the phase advance is 20*pi
 
@@ -19,3 +15,4 @@ function sorted_indcs = sort_by_phase_advance(data, param, indcs)
     indcs23 = indcs2(off+2:end);
 
     sorted_indcs = [indcs13; indcs21; indcs12; indcs22; indcs23; indcs11];
+end

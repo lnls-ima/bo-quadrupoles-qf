@@ -40,6 +40,11 @@ function ring = do_corrections(ring, nus, orbit)
 %     [ring, ~] = lnls_correct_tunes(ring, nus, {'QF', 'QD'}, 'svd', 'add');
 end
 
+% function idcs = change_order(idcs)
+%     prm = randperm(50, 2);
+%     idcs(prm) = idcs(fliplr(prm));
+% end
+
 function idcs = change_order(idcs)
     id = idcs(2);
     prm = randperm(25, 2)*2 - randi([0,1]); %permute odd with odd and even with even
@@ -62,6 +67,9 @@ function res = calc_residue(ring, twi0)
 %     tw.cox  = co(1:4:end);
 %     tw.coy  = co(3:4:end);
     
-    res = (rms((tw.betax-twi0.betax)./twi0.betax) + ...
-           rms((tw.betay-twi0.betay)./twi0.betay)) * 100;
+    bbx = (tw.betax-twi0.betax)./twi0.betax;
+    rmsx = sqrt(trapz(twi0.pos, bbx.*bbx)/twi0.pos(end));
+    bby = (tw.betay-twi0.betay)./twi0.betay;
+    rmsy = sqrt(trapz(twi0.pos, bby.*bby)/twi0.pos(end));
+    res = (rmsx + rmsy) * 100;   
 end

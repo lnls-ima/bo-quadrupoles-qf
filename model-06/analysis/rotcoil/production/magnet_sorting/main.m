@@ -15,7 +15,6 @@ function indcs = main(M, energy)
     meth = {'exc_err'};
     for i=1:length(meth)
         m = meth{i};
-        indcs.([m,'p']) = sort_simple(data.(M), m, indcs.james);
         indcs.([m,'c']) = sort_simple_constraint(data.(M), m, indcs.james);
     %     idcs_s = sort_by_phase_advance(data.M1, m);
     end

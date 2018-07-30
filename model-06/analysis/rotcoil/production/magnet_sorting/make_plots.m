@@ -1,12 +1,12 @@
 function twi = make_plots(indcs, data)
-    ring = create_rings(indcs, data);
+    rings = create_rings(indcs, data);
 
-    fs = fieldnames(ring);
+    fs = fieldnames(rings);
     for i=1:length(fs)
         m = fs{i};
-        twi.(m) = calctwiss(ring.(m));
+        twi.(m) = calctwiss(rings.(m));
     end
-
+    twi0 = twi.bare;
     %%
     % close all;
 
@@ -22,17 +22,22 @@ function twi = make_plots(indcs, data)
         xlabel(ax, 'position [m]', 'FontSize', 16);
     end
 
-    fmt = '%10s ->   nu = (%6.3f, %6.3f), xi = (%5.3f, %5.3f)\n';
+    fmt = '%10s ->   btbeat = %5.3f, dist = %03d,  met = %05d\n';
     for i=1:length(fs)
-        tw = twi.(fs{i});
+        m = fs{i};
+        tw = twi.(m);
         plot(axs(1), tw.pos, tw.cox*1000, 'LineWidth', 3);
         plot(axs(2), tw.pos, tw.coy*1000, 'LineWidth', 3);
         plot(axs(3), tw.pos, 100*(tw.betax-twi.bare.betax)./twi.bare.betax, 'LineWidth', 3);
         plot(axs(4), tw.pos, 100*(tw.betay-twi.bare.betay)./twi.bare.betay, 'LineWidth', 3);
 
-        nux = tw.mux(end)/2/pi;
-        nuy = tw.muy(end)/2/pi;
-        fprintf(fmt, fs{i}, nux, nuy, tw.chromx, tw.chromy);
+%         nux = tw.mux(end)/2/pi;
+%         nuy = tw.muy(end)/2/pi;
+%         fprintf(fmt, m, nux, nuy, tw.chromx, tw.chromy, r);
+        if i>1
+            r = calc_residue(tw, twi0, indcs.(m), data.james_sorting);
+            fprintf(fmt, m, r(1), r(3), r(2));
+        end
     end
 
     ylabel(axs(1), 'Horizontal Orbit [mm]');
@@ -51,7 +56,26 @@ function twi = make_plots(indcs, data)
     fi = fieldnames(indcs);
     mk = '+o*xvd^s><';
     for i=1:length(fi)
-        plot(ax, 100*data.exc_err(indcs.(fi{i})), mk(i), 'MarkerSize', 16, ...
-             'MarkerFaceColor','auto', 'DisplayName', fi{i});
+        plot(ax, 100*data.exc_err(indcs.(fi{i})), mk(mod(i,length(mk))+1), ...
+             'MarkerSize', 16, 'MarkerFaceColor','auto', 'DisplayName', fi{i});
     end
     legend(ax, 'Location', 'best');
+end
+
+function res = calc_residue(tw, twi0, indcs, idcs_ref)
+    
+    bbx = (tw.betax-twi0.betax)./twi0.betax;
+    rmsx = sqrt(trapz(twi0.pos, bbx.*bbx)/twi0.pos(end));
+    bby = (tw.betay-twi0.betay)./twi0.betay;
+    rmsy = sqrt(trapz(twi0.pos, bby.*bby)/twi0.pos(end));
+    res(1) = (rmsx + rmsy) * 100;
+    
+    % measure how many changes they will have to make;
+    res(2) = sum(indcs ~= idcs_ref);
+    % measure how long they will have to walk to change magnets;
+    [~, ia, ib] = intersect(idcs_ref, indcs);
+    vec = abs(ia-ib);
+    in = vec>25;
+    vec(in) = 50 - vec(in);
+    res(3) = sum(vec);
+end
