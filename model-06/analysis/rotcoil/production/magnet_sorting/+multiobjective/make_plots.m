@@ -1,4 +1,52 @@
-function  make_plots_multi_objective(re)
+function make_plots(re, resid_ref)
+    if ~exist('resid_ref', 'var')
+        resid_ref = struct();
+    end
+    sz = size(re.G001.res,1);
+    if sz == 2
+        make_plots_2d(re, resid_ref);
+    elseif sz == 3
+        make_plots_3d(re, resid_ref);
+    else
+        error('Not implemented yet.');
+    end
+
+end
+
+function make_plots_2d(re, resid_ref)
+    fn=fieldnames(re);
+    len = length(fn);
+
+    figure('Position', [100, 10, 1500, 1500]);
+    ax = subplottight(1, 1, 1);
+    set(ax, 'Box', 'on', 'FontSize', 16, ...
+        'XGrid', 'on', 'YGrid', 'on', 'NextPlot', 'add');
+    ls = [];
+    for ii=len-1:-1:1
+        r = re.(fn{ii}).res;
+        c = [ii/len, sin(pi*ii/len), 1-1/len];
+        l = scatter(ax, r(1,:), r(2,:), 50, c, 'filled');
+        if ii ==1 || ii==len-1 || ~mod(ii,30)
+            l.DisplayName = sprintf('G%03d', ii);
+            ls = [ls, l];
+        end
+    end
+    fs = fieldnames(resid_ref);
+    mks = 'o^vds><';
+    for i=1:length(fs)
+        m = fs{i};
+        mk = mks(mod(i-1, length(mks))+1);
+        res = resid_ref.(m);
+        l = scatter(ax, res(1,1), res(2,1), 180, [mk,'k'], 'filled');
+        l.DisplayName = m;
+        ls = [ls, l];
+    end
+    legend(ls, 'Location', 'best');
+    xlabel(ax, 'Horizontal Beta Beating', 'FontSize', 16);
+    ylabel(ax, 'Vertical Beta Beating', 'FontSize', 16);
+end
+
+function make_plots_3d(re, resid_ref)
     fn=fieldnames(re);
     len = length(fn);
 
@@ -29,17 +77,22 @@ function  make_plots_multi_objective(re)
                 ls = [ls, l];
             end
         end
-        l1 = scatter(ax, re.G001.res(id1,1), re.G001.res(id2,1), 180, '^k', 'filled');
-        l1.DisplayName = 'sorted';
-        l2 = scatter(ax, re.G001.res(id1,2), re.G001.res(id2,2), 180, 'dk', 'filled');
-        l2.DisplayName = 'James';
-        ls = [ls, l1, l2];
+        fs = fieldnames(resid_ref);
+        mks = 'o^vds><';
+        for iii=1:length(fs)
+            m = fs{iii};
+            mk = mks(mod(iii-1, length(mks))+1);
+            res = resid_ref.(m);
+            l = scatter(ax, res(id1,1), res(id1,1), 180, [mk,'k'], 'filled');
+            l.DisplayName = m;
+            ls = [ls, l];
+        end
         legend(ls, 'Location', 'best');
         xlabel(ax, xlab, 'FontSize', 16);
         ylabel(ax, ylab, 'FontSize', 16);
     end
-    
-    
+
+
     ax = subplottight(2, 2, [3,4]);
     set(ax, 'Box', 'on', 'FontSize', 16, ...
             'XGrid', 'on', 'YGrid', 'on', 'NextPlot', 'add');
@@ -55,10 +108,15 @@ function  make_plots_multi_objective(re)
         l = scatter(ax, rs(1,ind)', rs(2,ind)', 80, C, 'filled');
         l.DisplayName = sprintf('<%5d', rs(3,ind(1)));
     end
-    l1 = scatter(ax, re.G001.res(1,2), re.G001.res(2,2), 180, '^', 'MarkerFaceColor', 'k');
-    l1.DisplayName = sprintf('sorted (%4d)', re.G001.res(3,2));
-    l2 = scatter(ax, re.G001.res(1,1), re.G001.res(2,1), 180, 'd', 'MarkerFaceColor', 'k');
-    l2.DisplayName = sprintf('James (%4d)', re.G001.res(3,1));
+    fs = fieldnames(resid_ref);
+    mks = 'o^vds><';
+    for iii=1:length(fs)
+        m = fs{iii};
+        mk = mks(mod(iii-1, length(mks))+1);
+        res = resid_ref.(m);
+        l = scatter(ax, res(1,1), res(2,1), 180, [mk,'k'], 'filled');
+        l.DisplayName = m;
+    end
     xlabel(ax, 'beta beat LE', 'FontSize', 16);
     ylabel(ax, 'beta beat HE', 'FontSize', 16);
     legend(ax, 'Location', 'best');
@@ -95,7 +153,7 @@ function h = subplottight(n,m,i)
         yi = yi + bb;
     else
         yi = yi + vs/2;
-    end 
+    end
     ax = subplot('Position', [xi, yi, (xf-xi), (yf-yi)]);
     if(nargout > 0)
       h = ax;

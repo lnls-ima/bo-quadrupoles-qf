@@ -1,11 +1,8 @@
-function res = treat_raw_multiobjective_results(fol)
-    if ~exist('fol', 'var')
-        fol = '.';
+function res = treat_raw_results(opt)
+    if ~exist(opt.folder, 'dir')
+        error(['Folder ', opt.folder, 'do not exist in current directory']);
     end
-    if ~exist(fol, 'dir')
-        error(['Folder ', fol, 'do not exist in current directory']);
-    end
-    fol = [fol,'/'];
+    fol = [opt.folder,'/'];
     
     res = struct();
 
@@ -17,11 +14,11 @@ function res = treat_raw_multiobjective_results(fol)
     end
     
     % remove bad results
-    Ncut = 5;
+    Ncut = opt.Ncut;
     Gen = fieldnames(res);
     for i=1:length(Gen)
         G = res.(Gen{i});
-        id_keep = save_best_and_kill_worst(G.res, Ncut);
+        id_keep = multiobjective.save_best_and_kill_worst(G.res, Ncut);
         G.res = G.res(:,id_keep);
         G.G = G.G(:,id_keep);
         res.(Gen{i}) = G;
@@ -54,20 +51,4 @@ function res = treat_raw_multiobjective_results(fol)
             res.indcs.(Gen{i}).(sprintf('I%03d',j)) = G(:,j);
         end
     end
-end
-
-function id_keep = save_best_and_kill_worst(res, Ncut)
-%     % this is the wrong way of doing it!
-%     [~, id1] = sort(res(1,:));
-%     [~, id2] = sort(res(2,:));
-%     id_keep = unique([id1(1:Ncut),id2(1:Ncut)]);
-
-    % this is the correct way:
-    ndom = (size(res,2)+1)*ones(size(res,2));
-    for i=1:size(res,2)
-        dres = res - res(:,i);
-        dominate = all(dres < 0);
-        ndom(i) = sum(dominate);
-    end
-    id_keep = find(ndom < Ncut);
 end

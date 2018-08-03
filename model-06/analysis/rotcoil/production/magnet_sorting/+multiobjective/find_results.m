@@ -1,6 +1,9 @@
-function indcs = find_multi_objective_results(re, res_max, res_min)
+function indcs = find_results(re, res_max, form, res_min)
 if ~exist('res_min', 'var')
     res_min = res_max*0;
+end
+if ~exist('form', 'var')
+    form = 'struct';
 end
 
 fn = fieldnames(re);
@@ -15,4 +18,11 @@ for i=1:length(fn)
     end
 end
 
-
+if strncmpi(form, 'mat', 3)
+    fs = fieldnames(indcs);
+    G = zeros(size(indcs.(fs{1}), 1), length(fs));
+    for i=1:length(fs)
+        G(:,i) = indcs.(fs{i});
+    end
+    indcs = G;
+end
