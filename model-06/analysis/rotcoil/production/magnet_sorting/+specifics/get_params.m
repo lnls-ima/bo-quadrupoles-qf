@@ -1,5 +1,20 @@
 function opt = get_params()
-    params.ring0 = sirius_bo_lattice();
+    ring0 = sirius_bo_lattice();
+    
+    %% take into account new optics to compensate systematic quadrupole strength error of the dipoles:
+%     qfi = findcells(ring0, 'FamName', 'QF');
+%     ring0 = setcellstruct(ring0, 'PolynomB', qfi, 1.60, 1, 2);
+%     bdi = findcells(ring0, 'FamName', 'B');
+%     bdqf = getcellstruct(ring0, 'PolynomB', bdi, 1, 2);
+%     ring0 = setcellstruct(ring0, 'PolynomB', bdi, bdqf*0.98, 1, 2);
+    
+    %% Take into account tune correction due to systematic quadrupole strength error of the dipoles:
+%     bdi = findcells(ring0, 'FamName', 'B');
+%     bdqf = getcellstruct(ring0, 'PolynomB', bdi, 1, 2);
+%     ring0 = setcellstruct(ring0, 'PolynomB', bdi, bdqf*0.98, 1, 2);
+%     [ring0, ~] = lnls_correct_tunes(ring0, [19.204,   7.314], {'QF', 'QD'}, 'svd', 'add');
+
+    params.ring0 = ring0;
     params.twi0 = calctwiss(params.ring0);
     params.nus = [params.twi0.mux(end)/2/pi, params.twi0.muy(end)/2/pi];
 
@@ -30,4 +45,6 @@ function opt = get_params()
     opt.continue = false;
     opt.arbitrary_initial = false;
     opt.print_info = @specifics.print_info;
+    opt.simulanneal_Niter = 1000;
+    opt.simulanneal_weight = [1, 1, 1/25];
 end
