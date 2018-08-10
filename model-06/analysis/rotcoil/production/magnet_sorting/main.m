@@ -5,13 +5,13 @@ function indcs = main(M, energy)
     if ~exist('energy', 'var')
         energy = 'LE';
     end
-    
+
     % sirius('BO.V04.01');
     data = load_data(energy);
 
     %%
     indcs.james = data.M2.james_sorting;
-    
+
     meth = {'exc_err'};
     for i=1:length(meth)
         m = meth{i};
@@ -20,9 +20,9 @@ function indcs = main(M, energy)
     end
 
     %% Do Simulated annealing around the sorted solution.
-%     indcs.anneal = sort_simulated_annealing(data.(M), indcs.exc_errc);
+%     opt = specifics.get_params();
+%     indcs.anneal = multiobjective.simulated_annealing_run(opt);
 
     %% Do multi-objective optimization;
-%     opt = specifics.get_params();
 %     multiobjective.run(opt);
 end
