@@ -1,7 +1,7 @@
 Booster QF Quadrupoles Magnetic Center and Integrated Quadrupole
 ================================================================================
 
-As measured with rotcoil for I = 110A (nominal GL @ 3 GeV is ~100A
+As measured with rotcoil for I = 110A (nominal GL @ 3 GeV is ~100A)
 
 Magnet  |             M1               |             M2               |             M3               |
         | x0 [mm]  y0 [mm] GL/I [T/mA] | x0 [mm]  y0 [mm] GL/I [T/mA] | x0 [mm]  y0 [mm] GL/I [T/mA] |
